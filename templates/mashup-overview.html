@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-lg-12">                
+        <p>
+            <h3>Qlik Sense Mashup Integration Overview</h3>
+                Qlik Sense supports multiple methods of integrating data & visualizations with your application. The chart below outlines
+                4 levels of integration - presented from the easist to most complex. This application demonstrates some of those methods
+                (specifically level 1 & 2 integration).
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Level</th>
+                                <th scope="col">Method</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Suggested Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>iFrame Integration</td>
+                                <td>This is the simplest form of visual integration with Qlik Sense. Every sheet, chart or table in a Qlik Sense application has an ID, which can be found in Qlik Sense DevHub. If you copy the URL associated with an object into your browser, you can see the object on a standalone web page. If you copy the Iframe code and add it to your existing website, you will see the object embedded in your application. Use multiple Iframes and you can have a personalized dashboard.</td>
+                                <td>Preexisting web application that already supports &lt;iframe&gt; integration of 3rd party content. For example, Salesforce.com includes the ability to add custom tabs with embedded &lt;iframe&gt; content.</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Capability APIs & Libraries</td>
+                                <td>This is the most common integration method and leverages the Qlik Sense Capability APIs. It is different from an IFrame integration because charts are rendered using a Qlik JavaScript library to control the user interaction and object retrieval. This means faster and cleaner execution, customizable elements and many other features.</td>
+                                <td>Custom developed web applications that integrate with Qlik Sense.</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Capability APIs & Libraries</td>
+                                <td>This is similar to Level 2 integration but rather than using Qlik Sense visualization objects, you create your own visualizations using the data returned from Qlik Sense. When using Qlik Sense this way, it is acting primarily as a data warehouse and analytics engine (Qlik’s Associative Engine). It handles the data processing, storage and associations, but lets third-party technologies take care of the presentations.</td>
+                                <td>Custom developed web applications that integrate with Qlik Sense and require a custom visualization libary.</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Enigma.js & Engine API</td>
+                                <td>Most developers will not use enigma.js and the Engine API to integrate with Qlik Sense, as the capability APIs are usually sufficient for most use cases. Enigma.js is a wrapper library on top of the engine API. While the capability APIs are run from a user’s browser, enigma.js can be run on an application server to interact with Qlik before serving a web page to a user.</td>
+                                <td>Server-side applications that integrate with Qlik Sense.</td>
+                            </tr>
+                        </tbody>                                                
+                </p>  
+    </p>                
+    </div>    
+</div>

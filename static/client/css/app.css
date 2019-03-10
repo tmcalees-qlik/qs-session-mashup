@@ -1,0 +1,19 @@
+html,body {
+    overflow: visible;
+}
+
+code {
+    display:block;
+    white-space:pre-wrap;    
+    text-align: left;            
+}
+
+.qlik-viz-container {
+    height: 400px;
+ }
+
+.qlik-viz {
+   width: 100%;
+   height: 100%;
+}
+

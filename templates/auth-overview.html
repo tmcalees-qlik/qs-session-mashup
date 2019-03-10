@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-12">                
+        <p>
+            <h3>Qlik Sense Security Authentication Overview</h3>
+                Qlik Sense supports multiple methods for authenticating users.  All authentication in Qlik Sense is managed by the Qlik Sense Proxy Service (QPS).
+                Qlik Sense always asks an external system to verify who the user is and if the user can prove it.  The interaction between Qlik Sense and the 
+                external identity provider is handled by authentication modules.  For a module to communicate with Qlik Sense, it has to be trusted.  Transport
+                Layer Security (TLS) and certificate authentication are used to authorize external components for communication with Qlik Sense.
+
+                The chart below outlines the 4 most common authentication methods.
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>                                
+                                <th scope="col">Method</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Suggested Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                                
+                                <td>Ticket API</td>
+                                <td>The ticket solution is similar to a normal ticket. The user receives a ticket after having been verified. The user then brings the ticket to Qlik Sense and, if the ticket is valid, is authenticated.</td>
+                                <td></td>
+                            </tr>
+                            <tr>                                
+                                <td>Session API</td>
+                                <td>The session solution allows the Qlik Sense Proxy Service (QPS) to use a session from an external system to validate who the user is.</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Headers</td>
+                                <td>Header authentication is often used in conjunction with a Single Sign-On (SSO) system that supplies a reverse proxy or filter for authenticating the user.</td>
+                                <td></td>
+                            </tr>
+                            <tr>                                
+                                <td>SAML</td>
+                                <td>Security Assertion Markup Language (SAML) is an XML-based, open-standard data format for exchanging authentication and authorization data between parties (for example, between an identity provider and a service provider). SAML is typically used for web browser single sign-on (SSO).</td>
+                                <td></td>
+                            </tr>
+                        </tbody> 
+                    </table>
+                </p>  
+    </p>                
+    </div>    
+</div>
+
+<div class="row">
+    <div class="col-lg-6">        
+        <h3>Session Authentication</h3>
+        <p>
+            Session authentication is solution that allows the Qlik Sense Proxy Service (QPS) to use a session from an external system to validate who the user is.    
+        </p>           
+        <h4>Description of Workflow</h4>
+        <code>
+1. The user accesses your mashup application.  The application determines there is no active session for the user.
+2. The user is redirected to the mashup application’s authentication service.  This is a custom implementation within the application.
+3. The application needs to create a user session cookie with the same name used in the definition of your application’s Qlik Sense Virtual Proxy.  Store the unique identifier for this user’s authenticated session in the cookie.
+4. The application passes a user’s unique session identifier, the user’s Qlik Sense User ID and Directory to the Qlik Sense Proxy Service.  
+5. If successful, the QPS will return a session ticket.
+6. Store the session ticket returned from the QPS along with the unique identifier associated with the user’s session in a global data structure that can be access by the Qlik Sense Authentication Module (note: the authentication module is implemented in your application code).
+7. The first call to a protected Qlik Sense API or resource.
+8. Qlik Sense will call back into the Qlik Sense Authentication Module with the user’s session identifier.  
+9. The authentication module must return the session ticket received in step #4.  This will establish a session between the client browser and Qlik Sense server.                           
+        </code>           
+    </div>
+    <div class="col-lg-6">
+            <div class="col-12 qlik-viz-container">        
+                <div>
+                    <h3>&nbsp;</h3>
+                    <img src="../static/client/images/session-flow.png"></img>
+                </div>
+            </div>                        
+    </div>        
+</div>

@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-lg-4">        
+        <h3>Qlik Chart Integration</h3>
+        <p>
+                The visualizations to the right (or below) are served by the Qlik Sense
+                Enterprise server using our <i>Capabilities API</i>.  This is a &lt;div&gt;
+                level integration to your web application.  The code to complete this 
+                integration looks something like this:
+        </p>
+        <code>                                
+// Open a Qlik Sense application 
+var app = qlik.openApp('aa72ba66-9cb1-469d-af42-2a71d485550f', config);
+
+// Get a Qlik Sense visualization (object) and place it in the &lt;div&gt;
+// container with an id of <i>chart1</i>
+this.app.getObject('chart1','krWxx');
+this.app.getObject('chart2','KYSaNka');
+        </code>
+        <p>
+                
+        </p>
+    </div>
+    <div class="col-lg-8">
+            <div class="col-12 qlik-viz-container">        
+                    <div id="chart1" class="qvobject qlik-viz"></div>
+            </div>
+            <div class="col-12 qlik-viz-container">
+                    <div id="chart2" class="qvobject qlik-viz"></div>
+            </div>            
+    </div>        
+</div>

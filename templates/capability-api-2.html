@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-lg-4">        
+        <h3>Qlik Dynamically Generated Chart</h3>
+        <p>
+                The visualization to the right (or below) is dynamically Generated
+                and servered by the Qlik Sense Enterprise server using our <i>Capabilities API</i>.
+                This is a &lt;div&gt; level integration to your web application.  The code to complete this 
+                integration looks something like this:
+        </p>
+        <code>                                
+var app = qlik.openApp('aa72ba66-9cb1-469d-af42-2a71d485550f', config);
+
+app.visualization.create('barchart',[],
+{
+
+        qHyperCubeDef: {
+        qDimensions: [
+                {
+                qDef: {
+                        qFieldDefs: [
+                        "Category"
+                        ]
+                }
+                }
+        ],
+        qMeasures: [
+                {
+                qDef: {
+                        qDef: "Sum([Sales])",
+                        qLabel: "Total Sales",
+                }                 
+                }
+        ],
+        qInitialDataFetch: [
+                {
+                qHeight: 12,
+                qWidth: 2
+                }
+        ]
+        },
+
+        "title": "Dynamically Generated Barchart",        
+        "color": { "auto": false, "mode": "byDimension" }
+                // "color": { "auto": false, "mode": "byMeasure" }
+
+})
+.then(function(vis){
+        vis.show("chart3");
+});
+        </code>
+        <p>
+                
+        </p>
+    </div>
+    <div class="col-lg-8">
+            <div class="col-12 qlik-viz-container">        
+                    <div id="chart3" class="qvobject qlik-viz"></div>
+            </div>            
+    </div>        
+</div>
