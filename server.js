@@ -42,18 +42,11 @@ async function start() {
             partialsPath: './templates/partials'
         });
 
-        /*
-        server.state('MashupSession', {                           // Create a hapi cookie named 'MashupSession' that contains the users session id
+        server.state('X-QlikSession-Token-HTTP', {                   // Create a hapi cookie that contains the users session id
             ttl: null,
             encoding: 'none',
-            isSecure: false            
-        });                
-        */
-
-        server.state('X-QlikSession-Token-HTTP', {               // Create a hapi cookie named 'QlikSession' that contains the users session id
-            ttl: null,
-            encoding: 'none',
-            isSecure: false            
+            isSecure: false,
+            isHttpOnly: true        
         });                
 
 
