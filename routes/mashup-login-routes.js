@@ -1,5 +1,5 @@
 const sessionLogin = require('../util/qlik-auth');
-const mashupSessionCache = require('../util/mashup-session-cache');
+const appCache = require('../util/app-cache');
 
 module.exports = [
     // Route for login page.
@@ -34,14 +34,14 @@ module.exports = [
             request.cookieAuth.set({sessionId});    
 
             console.log('POST [/login]: Create session identifier');
-            var sessionId = mashupSessionCache.createId();            
+            var sessionId = appCache.createId();            
             var ticket = await sessionLogin.createSession(request, h, user, directory, sessionId);                                                              
             
             // Establish the session cookie for the Qlik Sense session proxy
             console.log('POST [/login]: Create Qlik session cookie');
             h.state('X-QlikSession-Token-HTTP', sessionId);
 
-            mashupSessionCache.updateCache(sessionId, ticket);
+            appCache.updateValue(sessionId, ticket);
 
             return h.redirect('/view/auth-overview.html');
             //return h.view('auth-overview.html',{PageTitle:'Page Title'},{layout: 'layout-session'});
@@ -64,7 +64,7 @@ module.exports = [
                 var sessionId =  request.cookieAuth.request.auth.credentials.sessionId;
                 if (sessionId)
                 {
-                    mashupSessionCache.delete(request, h, sessionId,'MashupSession');
+                    appCache.delete(request, h, sessionId,'MashupSession');
                 }  
 
                 return h.redirect('/login');
