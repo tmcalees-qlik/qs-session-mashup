@@ -21,11 +21,10 @@ function updateValue(key, val) {
     appCache.set(key, val);
 };
 
-function deleteValue(request, h, sessionId, cookie) {
-    console.log('App-Cache: deleteSession('+sessionId+','+cookie+')');        
-    h.unstate(cookie);               // Delete the cookie containing the session id shared with Qlik Sense
-    appCache.del(sessionId);        // Delete the Qlik Sense session ticket from the cache
-    request.cookieAuth.clear();         // Clear session from hapi-cookie-auth    
+function deleteValue(key) {
+    console.log('App-Cache: deleteSession ['+key+']');        
+   
+    return appCache.del(key);        // Delete key and value from cache
 };
 
 function getValue(key) {

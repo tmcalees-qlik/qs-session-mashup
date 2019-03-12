@@ -10,7 +10,7 @@ module.exports = [
         method: 'POST',
         path: '/session-auth/session',
         handler: async function (request, h) {
-            console.log('POST [session-auth/session]: Add session');                                       
+            console.log('POST [session-auth/session]: Add session (not implemented)');                                       
 
             return h.response('POST [/session-auth/session]: Not Implemented');
         }
@@ -51,12 +51,12 @@ module.exports = [
         handler: async function (request, h) {
             console.log('DELETE [session-auth/session/{id}]: Delete session id '+request.params.id);     
             
-            var qlikSession = request.state.QlikSession;
-            if (qlikSession)
+            var result = appCache.deleteValue(request.params.id);
+            if (result > 0)
             {
-                console('DELETE [/session-auth/session/{id}]: Clear Qlik Sense session cookie and cache');
-                h.state('QlikSession',null);                            // Delete the cookie containing the session id shared with Qlik Sense
-                appCache.deleteValue(qlikSession);          // Delete the Qlik Sense session ticket from the cache
+                console.log('DELETE [session-auth/session/{id}]: Successful'); 
+            } else {
+                console.log('DELETE [session-auth/session/{id}]: Not found'); 
             }
 
             return h.response('Session deleted');
