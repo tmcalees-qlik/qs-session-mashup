@@ -3,7 +3,9 @@
 const Path = require('path');
 const Hapi = require('hapi');
 const Hoek = require('hoek');
-const GenericAuthenticationRoutes = require('./routes/app-session');
+const MashupStaticRoutes = require('./routes/mashup-static-routes');
+const MashupViewRoutes = require('./routes/mashup-view-routes');
+const MashupAuthRoutes = require('./routes/mashup-login-routes');
 const QlikSessionAuthenticationRoutes = require('./routes/qlik-session-module');
 
 var cfg = require('./util/qlik-config');
@@ -22,9 +24,9 @@ async function start() {
          await server.register(require('inert'));               // Hapi plugin used for serving static files
          await server.register(require('hapi-auth-cookie'));    // Hapi plugin used for cookie based session authentication
 
-         server.auth.strategy('session','cookie',{              // This is the session cookie used by hapi-auth-cookie
+         server.auth.strategy('session','cookie',{              // This is the mashup session cookie used by hapi-auth-cookie
             password: 'session!secret!123456789!987654321',
-            cookie: 'session',
+            cookie: 'Mashup-Session',
             redirectTo: '/login',
             appendNext: true,                   
             isSecure: false    
@@ -42,13 +44,12 @@ async function start() {
             partialsPath: './templates/partials'
         });
 
-        server.state('X-QlikSession-Token-HTTP', {                   // Create a hapi cookie that contains the users session id
-            ttl: null,
+        server.state('X-QlikSession-Token-HTTP', {              // Create a cookie that contains the Qlik Sense 
+            ttl: null,                                          // session id (must match the virtual proxy configuration)            
             encoding: 'none',
             isSecure: false,
             isHttpOnly: true        
         });                
-
 
         await server.start();                                   // Start the hapi server
     }
@@ -62,48 +63,12 @@ async function start() {
 
 //
 // Start the hapi server.  Since there are multiple asynchronous calls in the function, 
-// wait for them all to complete (.then) before registering any routes.
+// wait for them all to complete before registering any routes.
 //
 start().then(result => {    
     
-    server.route(QlikSessionAuthenticationRoutes);                            // Configure routes support the Qlik Sense Session Authentication Module interface    
-
-    // Generic route for all html template pages
-    //
-    // Access to these pages is controlled by the 'session' authentication setting for the route.
-    server.route({
-        method: 'GET',
-        path: '/view/{page}',
-        options: {
-            auth: 'session',   
-            handler: function (request, h) {
-                var filename = '/view/'+request.params.page;
-                var pageTitle = request.query.pageTitle;
-                
-                var mashupSession = request.state.MashupSession;                
-    
-                console.log('Route GET [/view/{page}]: Render '+filename+' for session ['+mashupSession+']');                
-
-                return h.view(request.params.page,
-                    {PageTitle: pageTitle,
-                        Username: request.cookieAuth.request.auth.credentials.UserId,
-                        Ticket: request.cookieAuth.request.auth.credentials.Ticket},{layout: 'layout-session'});   
-                
-            }
-        }
-    });
-
-    // Generic route for all static pages (ex. images, css, javascript, etc.)
-    //
-    // There is no access control on these resources.  
-    server.route({
-        method: 'GET',
-        path: '/{file*}',
-        handler: (request, h) => {
-
-            var filename = request.params.file;
-            console.log('Route GET [/{file}]: Returning static content '+ filename);
-            return h.file(filename);
-        }
-    });
+    server.route(MashupStaticRoutes);                         // Configure routes for static pages
+    server.route(MashupViewRoutes);                           // Configure routes for dynamic view pages
+    server.route(MashupAuthRoutes);                           // Configure routes for mashup authentication (login/logout)
+    server.route(QlikSessionAuthenticationRoutes);            // Configure routes for Qlik Sense Session Authentication Module interface        
 });
