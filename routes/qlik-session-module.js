@@ -4,13 +4,15 @@ const appCache = require('../util/app-cache');
 module.exports = [
     // Route for adding a session
     //
-    // This route is called to add a new session.  I'm not sure when this
-    // method is called or by who.        
+    // This route is called to add a new session object for a user.
     {
         method: 'POST',
         path: '/session-auth/session',
         handler: async function (request, h) {
-            console.log('POST [session-auth/session]: Add session (not implemented)');                                       
+            console.log('POST [session-auth/session]: Add user session (not implemented)');                                       
+
+            var body = request.body;
+            console.log('POST [session-auth/session]: '+body);
 
             return h.response('POST [/session-auth/session]: Not Implemented');
         }
